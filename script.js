@@ -24,7 +24,8 @@ document.body.appendChild(app.view)
 
 const img = document.getElementById('canvas_image')
 const mainColors = getMainColors(img)
-const tenColors = getMainPalette(img)
+const tenColors = getMainPalette(mainColors)
+console.log(tenColors)
 const mainPalette = {}
 for (let i = 0; i < tenColors.length; i++) {
     mainPalette[rgb2hex(tenColors[i][0], tenColors[i][1], tenColors[i][2])] = i
@@ -213,17 +214,19 @@ for (let i = 0; i < sqrs.length; i++) {
 
 
 //ПОЛУЧЕНИЕ 10 ДОМНИРУЮЩИХ ЦВЕТОВ
-function getMainPalette(img) {
-    const colorThief = new ColorThief();
-    if (img.complete) {
-        colorThief.getColor(img);
-    }
-    else {
-        img.addEventListener('load', function () {
-            colorThief.getColor(img);
-        });
-    }
-    return colorThief.getPalette(img)
+function getMainPalette(palette) {
+    const tenColors = {}
+    palette.forEach(color => {
+        if (tenColors[color]){
+            tenColors[color] += 1
+        } else {
+            tenColors[color] = 1
+        }
+    })
+    return tenColors
+//    tenColors.sort(function(a, b) {
+//        if a.
+//    })
 }
 
 
@@ -274,6 +277,7 @@ function getMainColors(img) {
         }
     }
     return main100colors
+    console.log(main100colors)
 }
 
 //ПЕРЕВОД RGB В HEX
